@@ -1,6 +1,5 @@
 package com.swl.booking.system.service;
 
-import com.swl.booking.system.dto.BookDto;
 import com.swl.booking.system.entity.Book;
 import com.swl.booking.system.request.book.BookRegisterRequest;
 import com.swl.booking.system.request.book.BorrowBookRequest;
@@ -13,8 +12,6 @@ import java.util.List;
 public interface BookService {
 
     BookResponse registerBook(BookRegisterRequest request);
-    
-    String registerBook(BookDto bookDto);
     
     List<Book> getAvailableBooks();
     

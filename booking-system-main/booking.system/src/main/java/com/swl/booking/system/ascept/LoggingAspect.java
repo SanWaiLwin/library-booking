@@ -23,28 +23,27 @@ public class LoggingAspect {
 		// Pointcut expression to match all methods in controllers
 	} 
 	
-	// Commented out to reduce log verbosity
-	// @Before("controllerMethods()")
-	// public void logMethodEntry(JoinPoint joinPoint) { 
-	//     String methodName = joinPoint.getSignature().getName();
-	//     Object[] methodArgs = joinPoint.getArgs();
-	//     logger.info("Method execution started: {} method with arguments: {}", methodName, methodArgs);
-	// }
+	@Before("controllerMethods()")
+	public void logMethodEntry(JoinPoint joinPoint) { 
+	    String methodName = joinPoint.getSignature().getName();
+	    Object[] methodArgs = joinPoint.getArgs();
+	    logger.info("Method execution started: {} method with arguments: {}", methodName, methodArgs);
+	}
 	
 
-	// Commented out to reduce log verbosity
-	// @After("controllerMethods()") 
-	// public void logMethodExit(JoinPoint joinPoint) { 
-	//     String methodName = joinPoint.getSignature().getName();
-	//     Object[] methodArgs = joinPoint.getArgs();
-	//     logger.info("Method execution finished: {} method with arguments: {}", methodName, methodArgs);
-	// }
+	// After advice: Log method exit
+	@After("controllerMethods()") 
+	public void logMethodExit(JoinPoint joinPoint) { 
+	    String methodName = joinPoint.getSignature().getName();
+	    Object[] methodArgs = joinPoint.getArgs();
+	    logger.info("Method execution finished: {} method with arguments: {}", methodName, methodArgs);
+	}
 
-	// Commented out to reduce log verbosity
-	// @AfterReturning(pointcut = "controllerMethods()", returning = "result")
-	// public void logMethodReturn(Object result) {
-	//	logger.info("Method executed successfully. Return value: " + result);
-	// }
+	// After returning advice: Log successful execution result
+	@AfterReturning(pointcut = "controllerMethods()", returning = "result")
+	public void logMethodReturn(Object result) {
+		logger.info("Method executed successfully. Return value: " + result);
+	}
 
 	// After throwing advice: Log exception if any
 	@AfterThrowing(pointcut = "controllerMethods()", throwing = "exception")

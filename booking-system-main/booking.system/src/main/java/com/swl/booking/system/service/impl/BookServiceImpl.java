@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.swl.booking.system.dto.BookDto;
 import com.swl.booking.system.entity.Book;
 import com.swl.booking.system.entity.BookBorrowing;
 import com.swl.booking.system.entity.User;
@@ -62,24 +61,6 @@ public class BookServiceImpl implements BookService {
 
         Book savedBook = bookRepository.save(book);
         return new BookResponse(savedBook);
-    }
-
-    @Override
-    public String registerBook(BookDto bookDto) {
-        if (bookRepository.countByIsbn(bookDto.getIsbn()) > 0) {
-            throw new AlreadyExitException("Book with ISBN " + bookDto.getIsbn() + " already exists");
-        }
-
-        Book book = new Book();
-        book.setIsbn(bookDto.getIsbn());
-        book.setTitle(bookDto.getTitle());
-        book.setAuthor(bookDto.getAuthor());
-        book.setAvailable(true);
-        book.setCreatedTime(new Date());
-        book.setUpdatedTime(new Date());
-
-        bookRepository.save(book);
-        return "Book registered successfully";
     }
 
     @Override
