@@ -7,13 +7,9 @@ import com.swl.booking.system.request.book.ReturnBookRequest;
 import com.swl.booking.system.response.book.BookListResponse;
 import com.swl.booking.system.response.book.BookResponse;
 
-import java.util.List;
-
 public interface BookService {
 
     BookResponse registerBook(BookRegisterRequest request);
-    
-    List<Book> getAvailableBooks();
     
     BookListResponse getAvailableBooksResponse();
 

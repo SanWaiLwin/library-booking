@@ -49,7 +49,8 @@ public class UserPrincipal implements UserDetails {
 //				authorities.add(auth);
 //			}
 		} else {
-			GrantedAuthority auth = new SimpleGrantedAuthority(user.getName().toString());
+			String userName = user.getName() != null ? user.getName().toString() : "ANONYMOUS";
+			GrantedAuthority auth = new SimpleGrantedAuthority(userName);
 			authorities.add(auth);
 		}
 		return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), user.getAddress(), user.isVerified(), authorities);

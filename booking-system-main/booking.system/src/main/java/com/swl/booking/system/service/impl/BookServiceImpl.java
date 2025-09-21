@@ -62,11 +62,6 @@ public class BookServiceImpl implements BookService {
         Book savedBook = bookRepository.save(book);
         return new BookResponse(savedBook);
     }
-
-    @Override
-    public List<Book> getAvailableBooks() {
-        return bookRepository.findByIsAvailableTrue();
-    }
     
     @Override
     public BookListResponse getAvailableBooksResponse() {

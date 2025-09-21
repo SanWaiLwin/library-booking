@@ -5,8 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87c47c21-1f83-4dac-b713-6c2b27a911cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/ascept/LoggingAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/ascept/LoggingAspect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/dto/BookDto.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/ascept/LoggingAspectTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/config/TestSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/controller/UserControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/exception/RdpExceptionTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/CustomUserDetailsServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtAuthenticationEntryPointTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtAuthenticationFilterTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtAuthenticationResponseTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtTokenProviderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/UserPrincipalTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/CacheRefreshServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/CacheWarmupServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/RedisBookCacheServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/impl/BookServiceImplTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/impl/UserServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/security/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/security/UserPrincipal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/BookService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/impl/BookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/impl/BookServiceImpl.java" afterDir="false" />
     </list>
@@ -29,11 +43,28 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Application.executor": "Run",
-    "JUnit.BookControllerTest (1).executor": "Run",
+    "JUnit.All in booking.system.executor": "Coverage",
+    "JUnit.BookControllerTest (1).executor": "Coverage",
     "JUnit.BookControllerTest.borrowBook_Success.executor": "Run",
     "JUnit.BookControllerTest.executor": "Run",
     "JUnit.BookControllerTest.registerBook_Forbidden.executor": "Run",
     "JUnit.BookControllerTest.registerBook_InvalidInput.executor": "Run",
+    "JUnit.BookServiceImplTest.executor": "Run",
+    "JUnit.CacheRefreshServiceTest.executor": "Run",
+    "JUnit.CacheWarmupServiceTest.executor": "Run",
+    "JUnit.CustomUserDetailsServiceTest.executor": "Run",
+    "JUnit.JWTSingletonTest.executor": "Run",
+    "JUnit.JwtAuthenticationEntryPointTest.executor": "Run",
+    "JUnit.JwtAuthenticationFilterTest.doFilterInternal_ShouldHandleMultipleAuthEndpoints_Correctly.executor": "Run",
+    "JUnit.JwtAuthenticationFilterTest.executor": "Run",
+    "JUnit.JwtAuthenticationResponseTest.executor": "Run",
+    "JUnit.JwtTokenProviderTest.executor": "Run",
+    "JUnit.LoggingAspectTest.executor": "Run",
+    "JUnit.UserControllerTest.executor": "Run",
+    "JUnit.UserControllerTest.loginUser_ThrowsException_WhenInvalidCredentials.executor": "Run",
+    "JUnit.UserPrincipalTest.executor": "Run",
+    "JUnit.com.swl.booking.system in booking.system.executor": "Coverage",
+    "JUnit.com.swl.booking.system.security in booking.system.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
@@ -47,9 +78,69 @@
       <recent name="D:\workspace\booking-system-main\booking-system-main\booking.system\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Application">
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.Application" />
+  <component name="RunManager" selected="JUnit.com.swl.booking.system in booking.system">
+    <configuration name="JWTSingletonTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="booking.system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.swl.booking.system.security.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.swl.booking.system.security" />
+      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.security.JWTSingletonTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JwtAuthenticationFilterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="booking.system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.swl.booking.system.security.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.swl.booking.system.security" />
+      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.security.JwtAuthenticationFilterTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JwtAuthenticationFilterTest.doFilterInternal_ShouldHandleMultipleAuthEndpoints_Correctly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="booking.system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.swl.booking.system.security.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.swl.booking.system.security" />
+      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.security.JwtAuthenticationFilterTest" />
+      <option name="METHOD_NAME" value="doFilterInternal_ShouldHandleMultipleAuthEndpoints_Correctly" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JwtAuthenticationResponseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="booking.system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.swl.booking.system.security.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.swl.booking.system.security" />
+      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.security.JwtAuthenticationResponseTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.swl.booking.system in booking.system" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="booking.system" />
       <extension name="coverage">
         <pattern>
@@ -57,80 +148,19 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookControllerTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="booking.system" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.swl.booking.system.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.swl.booking.system.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.controller.BookControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookControllerTest.borrowBook_Success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="booking.system" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.swl.booking.system.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.swl.booking.system.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.controller.BookControllerTest" />
-      <option name="METHOD_NAME" value="borrowBook_Success" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookControllerTest.registerBook_Forbidden" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="booking.system" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.swl.booking.system.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.swl.booking.system.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.controller.BookControllerTest" />
-      <option name="METHOD_NAME" value="registerBook_Forbidden" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookControllerTest.registerBook_InvalidInput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="booking.system" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.swl.booking.system.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.swl.booking.system.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.swl.booking.system.controller.BookControllerTest" />
-      <option name="METHOD_NAME" value="registerBook_InvalidInput" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.swl.booking.system" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Application" />
-        <item itemvalue="JUnit.BookControllerTest.borrowBook_Success" />
-        <item itemvalue="JUnit.BookControllerTest (1)" />
-        <item itemvalue="JUnit.BookControllerTest.registerBook_InvalidInput" />
-        <item itemvalue="JUnit.BookControllerTest.registerBook_Forbidden" />
+        <item itemvalue="JUnit.com.swl.booking.system in booking.system" />
+        <item itemvalue="JUnit.JwtAuthenticationFilterTest" />
+        <item itemvalue="JUnit.JWTSingletonTest" />
+        <item itemvalue="JUnit.JwtAuthenticationResponseTest" />
+        <item itemvalue="JUnit.JwtAuthenticationFilterTest.doFilterInternal_ShouldHandleMultipleAuthEndpoints_Correctly" />
       </list>
     </recent_temporary>
   </component>
@@ -143,5 +173,14 @@
       <updated>1758455940265</updated>
     </task>
     <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/booking_system_main$com_swl_booking_system_in_booking_system.ic" NAME="com.swl.booking.system in booking.system Coverage Results" MODIFIED="1758477238562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.swl.booking.system.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/booking_system_main$All_in_booking_system.ic" NAME="All in booking.system Coverage Results" MODIFIED="1758475759786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/booking_system_main$BookControllerTest__1_.ic" NAME="BookControllerTest (1) Coverage Results" MODIFIED="1758474218394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.swl.booking.system.controller.*</FILTER>
+    </SUITE>
   </component>
 </project>
