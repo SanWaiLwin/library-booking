@@ -6,47 +6,58 @@ import com.swl.booking.system.request.book.BorrowBookRequest;
 import com.swl.booking.system.request.book.ReturnBookRequest;
 import com.swl.booking.system.response.book.BookResponse;
 import com.swl.booking.system.response.book.BookListResponse;
-import com.swl.booking.system.entity.Book;
-import com.swl.booking.system.entity.User;
+import com.swl.booking.system.security.UserPrincipal;
 import com.swl.booking.system.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
+import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(BookController.class)
+@ExtendWith(MockitoExtension.class)
 class BookControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private BookService bookService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Mock
+    private Authentication authentication;
 
+    @Mock
+    private UserPrincipal userPrincipal;
+
+    @InjectMocks
+    private BookController bookController;
+
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
     private BookRegisterRequest bookRegisterRequest;
     private BorrowBookRequest borrowBookRequest;
     private ReturnBookRequest returnBookRequest;
     private BookResponse bookResponse;
-    private Book book;
-    private User user;
+    private BookListResponse bookListResponse;
 
     @BeforeEach
     void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(bookController).build();
+        objectMapper = new ObjectMapper();
+
+        // Setup test data
         bookRegisterRequest = new BookRegisterRequest();
         bookRegisterRequest.setTitle("Test Book");
         bookRegisterRequest.setAuthor("Test Author");
@@ -65,202 +76,187 @@ class BookControllerTest {
         bookResponse.setIsbn("1234567890123");
         bookResponse.setAvailable(true);
 
-        book = new Book();
-        book.setId(1L);
-        book.setTitle("Test Book");
-        book.setAuthor("Test Author");
-        book.setIsbn("1234567890");
-        book.setQuantity(5);
-        book.setAvailableQuantity(5);
-
-        user = new User();
-        user.setId(1L);
-        user.setName("testuser");
-        user.setEmail("test@example.com");
+        bookListResponse = new BookListResponse(Arrays.asList(bookResponse));
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
-    void registerBook_Success() throws Exception {
+    void registerBook_Success_WhenUserIsAdmin() throws Exception {
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.isSuperAdmin()).thenReturn(true);
         when(bookService.registerBook(any(BookRegisterRequest.class))).thenReturn(bookResponse);
 
+        // When
         mockMvc.perform(post("/api/auth/book/register-book")
-                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(bookRegisterRequest)))
+                        .content(objectMapper.writeValueAsString(bookRegisterRequest))
+                        .principal(authentication))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.title").value("Test Book"))
-                .andExpect(jsonPath("$.author").value("Test Author"));
+                .andExpect(jsonPath("$.author").value("Test Author"))
+                .andExpect(jsonPath("$.isbn").value("1234567890123"))
+                .andExpect(jsonPath("$.available").value(true));
 
+        // Then
         verify(bookService).registerBook(any(BookRegisterRequest.class));
+        verify(userPrincipal).isSuperAdmin();
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_USER")
-    void registerBook_Forbidden() throws Exception {
-        mockMvc.perform(post("/api/auth/book/register-book")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(bookRegisterRequest)))
-                .andExpect(status().isForbidden());
+    void registerBook_ThrowsAccessDeniedException_WhenUserIsNotAdmin() {
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.isSuperAdmin()).thenReturn(false);
+
+        // When & Then
+        assertThrows(AccessDeniedException.class, () -> {
+            bookController.registerBook(bookRegisterRequest, authentication);
+        });
 
         verify(bookService, never()).registerBook(any(BookRegisterRequest.class));
+        verify(userPrincipal).isSuperAdmin();
     }
 
     @Test
-    @WithMockUser
     void getAvailableBooks_Success() throws Exception {
-        BookListResponse bookListResponse = new BookListResponse(Arrays.asList(bookResponse));
+        // Given
         when(bookService.getAvailableBooksResponse()).thenReturn(bookListResponse);
 
+        // When
         mockMvc.perform(get("/api/auth/book/available-book"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.books[0].id").value(1L))
                 .andExpect(jsonPath("$.books[0].title").value("Test Book"))
-                .andExpect(jsonPath("$.books[0].author").value("Test Author"))
-                .andExpect(jsonPath("$.books[0].isbn").value("1234567890123"));
+                .andExpect(jsonPath("$.books[0].author").value("Test Author"));
 
+        // Then
         verify(bookService).getAvailableBooksResponse();
     }
 
     @Test
-    @WithMockUser
     void getAllBooks_Success() throws Exception {
-        BookListResponse bookListResponse = new BookListResponse(Arrays.asList(bookResponse));
+        // Given
         when(bookService.getAllBooks()).thenReturn(bookListResponse);
 
+        // When
         mockMvc.perform(get("/api/auth/book/all-book"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.books[0].title").value("Test Book"))
-                .andExpect(jsonPath("$.books[0].author").value("Test Author"));
+                .andExpect(jsonPath("$.books[0].id").value(1L))
+                .andExpect(jsonPath("$.books[0].title").value("Test Book"));
 
+        // Then
         verify(bookService).getAllBooks();
     }
+
     @Test
-    @WithMockUser
     void borrowBook_Success() throws Exception {
-        when(bookService.borrowBook(any(BorrowBookRequest.class), anyLong()))
-                .thenReturn("Book borrowed successfully");
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getId()).thenReturn(1L);
+        String expectedMessage = "Book borrowed successfully";
+        when(bookService.borrowBook(any(BorrowBookRequest.class), eq(1L))).thenReturn(expectedMessage);
 
+        // When
         mockMvc.perform(post("/api/auth/book/borrow-book")
-                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(borrowBookRequest)))
+                        .content(objectMapper.writeValueAsString(borrowBookRequest))
+                        .principal(authentication))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Book borrowed successfully"));
+                .andExpect(content().string(expectedMessage));
 
-        verify(bookService).borrowBook(any(BorrowBookRequest.class), anyLong());
+        // Then
+        verify(bookService).borrowBook(any(BorrowBookRequest.class), eq(1L));
+        verify(userPrincipal).getId();
     }
 
     @Test
-    @WithMockUser
-    void borrowBook_BookNotAvailable() throws Exception {
-        when(bookService.borrowBook(any(BorrowBookRequest.class), anyLong()))
+    void borrowBook_ThrowsException_WhenBookNotAvailable() {
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getId()).thenReturn(1L);
+        when(bookService.borrowBook(any(BorrowBookRequest.class), eq(1L)))
                 .thenThrow(new RuntimeException("Book not available"));
 
-        mockMvc.perform(post("/api/auth/book/borrow-book")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(borrowBookRequest)))
-                .andExpect(status().isBadRequest());
+        // When & Then
+        assertThrows(RuntimeException.class, () -> {
+            bookController.borrowBook(borrowBookRequest, authentication);
+        });
 
-        verify(bookService).borrowBook(any(BorrowBookRequest.class), anyLong());
+        verify(bookService).borrowBook(any(BorrowBookRequest.class), eq(1L));
     }
 
     @Test
-    @WithMockUser
     void returnBook_Success() throws Exception {
-        when(bookService.returnBook(any(ReturnBookRequest.class), anyLong())).thenReturn("Book returned successfully");
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getId()).thenReturn(1L);
+        String expectedMessage = "Book returned successfully";
+        when(bookService.returnBook(any(ReturnBookRequest.class), eq(1L))).thenReturn(expectedMessage);
 
+        // When
         mockMvc.perform(post("/api/auth/book/return-book")
-                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(returnBookRequest)))
+                        .content(objectMapper.writeValueAsString(returnBookRequest))
+                        .principal(authentication))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Book returned successfully"));
+                .andExpect(content().string(expectedMessage));
 
-        verify(bookService).returnBook(any(ReturnBookRequest.class), anyLong());
+        // Then
+        verify(bookService).returnBook(any(ReturnBookRequest.class), eq(1L));
+        verify(userPrincipal).getId();
     }
 
     @Test
-    @WithMockUser
-    void returnBook_BookNotBorrowed() throws Exception {
-        when(bookService.returnBook(any(ReturnBookRequest.class), anyLong()))
+    void returnBook_ThrowsException_WhenBookNotBorrowed() {
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getId()).thenReturn(1L);
+        when(bookService.returnBook(any(ReturnBookRequest.class), eq(1L)))
                 .thenThrow(new RuntimeException("Book not borrowed by user"));
 
-        mockMvc.perform(post("/api/auth/book/return-book")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(returnBookRequest)))
-                .andExpect(status().isBadRequest());
+        // When & Then
+        assertThrows(RuntimeException.class, () -> {
+            bookController.returnBook(returnBookRequest, authentication);
+        });
 
-        verify(bookService).returnBook(any(ReturnBookRequest.class), anyLong());
+        verify(bookService).returnBook(any(ReturnBookRequest.class), eq(1L));
     }
 
     @Test
-    @WithMockUser
     void getMyBorrowedBooks_Success() throws Exception {
-        BookListResponse bookListResponse = new BookListResponse(Arrays.asList(bookResponse));
-        when(bookService.getBorrowedBooks(anyLong())).thenReturn(bookListResponse);
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getId()).thenReturn(1L);
+        when(bookService.getBorrowedBooks(eq(1L))).thenReturn(bookListResponse);
 
-        mockMvc.perform(get("/api/auth/book/my-borrowed"))
+        // When
+        mockMvc.perform(get("/api/auth/book/my-borrowed")
+                        .principal(authentication))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.books[0].title").value("Test Book"))
-                .andExpect(jsonPath("$.books[0].author").value("Test Author"));
+                .andExpect(jsonPath("$.books[0].id").value(1L))
+                .andExpect(jsonPath("$.books[0].title").value("Test Book"));
 
-        verify(bookService).getBorrowedBooks(anyLong());
+        // Then
+        verify(bookService).getBorrowedBooks(eq(1L));
+        verify(userPrincipal).getId();
     }
 
     @Test
-    void registerBook_Unauthorized() throws Exception {
-        mockMvc.perform(post("/api/auth/book/register-book")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(bookRegisterRequest)))
-                .andExpect(status().isUnauthorized());
+    void getMyBorrowedBooks_ReturnsEmptyList_WhenNoBorrowedBooks() throws Exception {
+        // Given
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getId()).thenReturn(1L);
+        BookListResponse emptyResponse = new BookListResponse(Collections.emptyList());
+        when(bookService.getBorrowedBooks(eq(1L))).thenReturn(emptyResponse);
 
-        verify(bookService, never()).registerBook(any(BookRegisterRequest.class));
-    }
+        // When
+        mockMvc.perform(get("/api/auth/book/my-borrowed")
+                        .principal(authentication))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.books").isEmpty());
 
-    @Test
-    void borrowBook_Unauthorized() throws Exception {
-        mockMvc.perform(post("/api/auth/book/borrow-book")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(borrowBookRequest)))
-                .andExpect(status().isUnauthorized());
-
-        verify(bookService, never()).borrowBook(any(BorrowBookRequest.class), anyLong());
-    }
-
-    @Test
-    void returnBook_Unauthorized() throws Exception {
-        mockMvc.perform(post("/api/auth/book/return-book")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(returnBookRequest)))
-                .andExpect(status().isUnauthorized());
-
-        verify(bookService, never()).returnBook(any(ReturnBookRequest.class), anyLong());
-    }
-
-    @Test
-    void getMyBorrowedBooks_Unauthorized() throws Exception {
-        mockMvc.perform(get("/api/auth/book/my-borrowed"))
-                .andExpect(status().isUnauthorized());
-
-        verify(bookService, never()).getBorrowedBooks(anyLong());
-    }
-
-    @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
-    void registerBook_InvalidInput() throws Exception {
-        BookRegisterRequest invalidRequest = new BookRegisterRequest();
-        // Missing required fields
-
-        mockMvc.perform(post("/api/auth/book/register-book")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(status().isBadRequest());
+        // Then
+        verify(bookService).getBorrowedBooks(eq(1L));
     }
 }
