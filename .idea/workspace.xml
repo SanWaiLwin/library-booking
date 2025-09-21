@@ -5,24 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87c47c21-1f83-4dac-b713-6c2b27a911cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/ascept/LoggingAspectTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/config/TestSecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/controller/UserControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/exception/RdpExceptionTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/CustomUserDetailsServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtAuthenticationEntryPointTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtAuthenticationFilterTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtAuthenticationResponseTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/JwtTokenProviderTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/security/UserPrincipalTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/CacheRefreshServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/CacheWarmupServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/RedisBookCacheServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/impl/BookServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/test/java/com/swl/booking/system/service/impl/UserServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/security/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/security/UserPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/BookService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/impl/BookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-system-main/booking.system/src/main/java/com/swl/booking/system/service/impl/BookServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/README-Docker.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-system-main/booking.system/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +162,7 @@
     <servers />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/booking_system_main$com_swl_booking_system_in_booking_system.ic" NAME="com.swl.booking.system in booking.system Coverage Results" MODIFIED="1758477238562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/booking_system_main$com_swl_booking_system_in_booking_system.ic" NAME="com.swl.booking.system in booking.system Coverage Results" MODIFIED="1758477263311" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>com.swl.booking.system.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/booking_system_main$All_in_booking_system.ic" NAME="All in booking.system Coverage Results" MODIFIED="1758475759786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
